@@ -3,112 +3,134 @@
 int main(int argc, char** argv) {
     if(argc != 3){
         printf("\nWrong amount of arguments given. Exiting.\n");
-        return 1;
+        return 0;
     }
     if(!is_number(argv[1])){
         printf("\n\"%s\" is not a valid number. Exiting.\n", argv[1]);
-        return 1;
+        return 0;
     }
-    int flag;
+    if(argv[2][2] != '\0' || argv[2][0] != '/' && argv[2][0] != '-'){
+        printf("Invalid flag. Exiting.\n");
+        return 0;
+    }
+
+    char flag;
     int given_number;
-    flag = define_flag(argv[2]);
-
-    given_number = atoi(argv[1]);
-
-    int given_number_length = ceil(log10(given_number)) + 1;
+    int given_number_length;
     char given_number_string[given_number_length];
+
+    flag = argv[2][1];
+    given_number = atoi(argv[1]);
     given_number_string[given_number_length] = '\0';
+    given_number_length= strlen(argv[1]);
     itoa(given_number, given_number_string, 10);
     if(strcmp(given_number_string, argv[1]) != 0){
         printf("given number is over the limit of int.\n");
         return 0;
     }
 
-    switch(flag){
-        case 0:
-        {
-            int* array_of_numbers;
-            int count;
-            multiples(given_number, &array_of_numbers, &count);
+    int* array_of_multiples;
+    int count_of_multiples;
+    
+    long long int** exponent_table;
+    int sum_result;
+    char* factorial_result;
+    size_t factorial_length;
 
-            if(array_of_numbers){
+
+    switch(flag){
+        case 'h':
+        {   if(given_number == 0){
+            printf("Thou Shall Not Divide by Zero!\n");
+            return 0;
+        }
+            multiples(given_number, &array_of_multiples, &count_of_multiples);
+
+            if(array_of_multiples){
                 printf("Numbers that are multiples for %d are: ", given_number);
-                for(int i = 0; i < count; i++){
-                    printf("%d ",array_of_numbers[i]);
+                for(int i = 0; i < count_of_multiples; i++){
+                    printf("%d ",array_of_multiples[i]);
                 }
-                free(array_of_numbers);
+                free(array_of_multiples);
                 return 0;
             }else{
-                if(count == -1){
+                if(count_of_multiples == -1){
                     printf("Internal Error.\n");
-                    free(array_of_numbers);
+                    free(array_of_multiples);
                     return 1;
                 }
-                if(count == 0){
+                if(count_of_multiples == 0){
                     printf("Given number is more than 100.\n");
-                    free(array_of_numbers);
+                    free(array_of_multiples);
                     return 0;
                 }
             }
         }
-        case 1:
+        case 'p':
         {
-            (is_prime(given_number)) ? printf("%d is a prime number.\n", given_number) : printf("%d is a composite number.\n", given_number);
+            if(given_number == 1 || given_number == 0){
+                printf("%d is not considered a prime number.\n", given_number);
+                return 0;
+            }
+            printf("%d is a %s number.", given_number, is_prime(given_number) ? "prime" : "composite");
+            return 0;
+            
         }
-        case 2:
+        case 's':
         {
-            char* digits;
-            size_t length;
-            length = floor(log10(given_number))+1;
             printf("%d split looks like this: ", given_number);
-            for(int i = 0; i < length; i++){
+            for(int i = 0; i < given_number_length; i++){
                 printf("%c ", argv[1][i]);
             }
             return 0;
         }
-        case 3:
+        case 'e':
         {
-            long long int** table;
+            if(given_number < 1 || given_number > 10){
+                printf("Given number is outside the limits of function calculations.\n");
+                return 0;
+            }
             system("chcp 65001");
-            create_table_of_powers(given_number, &table);
-            if(table == NULL){
+            create_table_of_powers(given_number, &exponent_table);
+            if(exponent_table == NULL){
                 printf("Internal Error.\n");
-                free(table);
+                free(exponent_table);
                 return 1;
             }
-            print_table_of_powers(given_number, &table);
+            print_table_of_powers(given_number, &exponent_table);
             for(int i = 0; i < given_number; i++){
-                free(table[i]);
+                free(exponent_table[i]);
             }
-            free(table);
+            free(exponent_table);
             return 0;
         }
-        case 4:
+        case 'a':
         {
-            int result;
+            if(given_number < 1){
+                printf("Gievn number is less than 1.\n");
+                return 0;
+            }
             if(given_number > (sqrt(INT_MAX))){
                 printf("Unable to calculate due to reaching the border of int type.\n");
                 return 1;
             }
-            result = (1+given_number)*given_number/2;
-            printf("Sum of all natural numbers from 1 to %d is %d", given_number, result);
+            sum_result = (1+given_number)*given_number/2;
+            printf("Sum of all natural numbers from 1 to %d is %d", given_number, sum_result);
             return 0;
         }
-        case 5:
+        case 'f':
         {
-            char* result;
-            size_t length;
-            factorial(given_number, &result, &length);
+            factorial(given_number, &factorial_result, &factorial_length);
 
-            if(result == NULL){
+            if(factorial_result == NULL){
                 printf("Internal Error.\n");
                 return 1;
             }
 
-            for(int i = (int)length - 1; i >= 0; i--){
-                printf("%c", result[i]);
+            for(int i = (int)factorial_length - 1; i >= 0; i--){
+                printf("%c", factorial_result[i]);
             }
-            free(result);
+            free(factorial_result);
             return 0;
         }
         default:
