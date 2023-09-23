@@ -21,6 +21,28 @@ int define_flag(const char* flag){
     return -1;
 }
 
+int is_prime(int number){
+    int root = (int)ceil(sqrt(number));
+    for( int i = 2; i <= root; i+=1 ){
+        if(number%i == 0) return 0;
+    }
+    return 1;
+}
+
+void split_number(long long int number, char** digits, size_t* length){
+    *digits = (char*)malloc((*length)*sizeof(char));
+    if(*digits == NULL){
+        *length = -1;
+        return;
+    }
+    size_t i = *length - 1;
+    while(number != 0){
+        (*digits)[i] = (number%10) +'0';
+        number/=10;
+        i--;
+    }
+}
+
 void multiples(int number, int** array, int* amount){
     *amount = 0;
     if (number > 100){
@@ -40,33 +62,6 @@ void multiples(int number, int** array, int* amount){
         (*array)[*amount] = x;
         (*amount)++;
         x += number;
-    }
-}
-
-int is_prime(int number){
-    int root = (int)ceil(sqrt(number));
-    for( int i = 2; i <= root; i+=1 ){
-        if(number%i == 0) return 0;
-    }
-    return 1;
-}
-
-void split_number(int number, char** digits_reversed, int* length){
-    *digits_reversed = (char*)malloc(sizeof(char)*11);
-    if(*digits_reversed == NULL){
-        *length = -1;
-        return;
-    }
-    *length = 0;
-    if(number == 0){
-        *length = 1;
-        (*digits_reversed)[0] = 0;
-        return;
-    }
-    while(number != 0){
-        (*digits_reversed)[*length] = (char)(number%10);
-        (*length)++;
-        number/=10;
     }
 }
 

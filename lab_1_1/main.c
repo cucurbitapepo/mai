@@ -6,13 +6,23 @@ int main(int argc, char** argv) {
         return 1;
     }
     if(!is_number(argv[1])){
-        printf("\n\"%s\" is not a number. Exiting.\n", argv[1]);
+        printf("\n\"%s\" is not a valid number. Exiting.\n", argv[1]);
         return 1;
     }
     int flag;
     int given_number;
     flag = define_flag(argv[2]);
+
     given_number = atoi(argv[1]);
+
+    int given_number_length = ceil(log10(given_number)) + 1;
+    char given_number_string[given_number_length];
+    given_number_string[given_number_length] = '\0';
+    itoa(given_number, given_number_string, 10);
+    if(strcmp(given_number_string, argv[1]) != 0){
+        printf("given number is over the limit of int.\n");
+        return 0;
+    }
 
     switch(flag){
         case 0:
@@ -47,20 +57,13 @@ int main(int argc, char** argv) {
         }
         case 2:
         {
-            char* digits_reversed;
-            int length;
-            split_number(given_number, &digits_reversed, &length);
-
-            if(length == -1){
-                printf("Internal Error.\n");
-                free(digits_reversed);
-                return 1;
-            }
+            char* digits;
+            size_t length;
+            length = floor(log10(given_number))+1;
             printf("%d split looks like this: ", given_number);
-            for(int i = length-1; i >= 0; i--){
-                printf("%d ", digits_reversed[i]);
+            for(int i = 0; i < length; i++){
+                printf("%c ", argv[1][i]);
             }
-            free(digits_reversed);
             return 0;
         }
         case 3:
@@ -82,7 +85,13 @@ int main(int argc, char** argv) {
         }
         case 4:
         {
-            printf("Sum of all natural numbers from 1 to %d is %d", given_number, (1+given_number)*given_number/2);
+            int result;
+            if(given_number > (sqrt(INT_MAX))){
+                printf("Unable to calculate due to reaching the border of int type.\n");
+                return 1;
+            }
+            result = (1+given_number)*given_number/2;
+            printf("Sum of all natural numbers from 1 to %d is %d", given_number, result);
             return 0;
         }
         case 5:

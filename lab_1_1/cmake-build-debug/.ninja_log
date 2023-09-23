@@ -1,8 +1,5 @@
 # ninja log v5
+3	315	7171811323522341	CMakeFiles/CLionProjects.dir/main.c.obj	57e5494288965cc1
 0	233	7170291663887321	build.ninja	28e17283eaac2ef7
-22	191	7170229226389371	CMakeFiles/CLionProjects.dir/main.c.obj	8b0be854b79cbb58
-195	382	7170229228263404	CLionProjects.exe	eaa62c3ee46f8a19
-5	195	7170229226419389	CMakeFiles/CLionProjects.dir/functions.c.obj	4f9495f2bb195a20
-20	260	7170291693159000	CMakeFiles/CLionProjects.dir/main.c.obj	57e5494288965cc1
-2	269	7170291693279032	CMakeFiles/CLionProjects.dir/functions.c.obj	d9debee9ac3d1460
-269	453	7170291695089534	CLionProjects.exe	eaa62c3ee46f8a19
+315	522	7171811325517304	CLionProjects.exe	eaa62c3ee46f8a19
+5	625	7171669325104820	CMakeFiles/CLionProjects.dir/functions.c.obj	d9debee9ac3d1460
