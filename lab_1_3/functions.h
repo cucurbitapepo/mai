@@ -24,7 +24,7 @@ void swap(double *a, double *b);
 int partition(double** array, int low, int high, double epsilon);
 void quicksort(double** array, int low, int high, double epsilon);
 int generate_permutation(double** array, int array_length, double epsilon);
-void solve_equation(double** permutation, double** solutions, int amount_of_solutions, double epsilon);
+int solve_equation(double** permutation, double** solutions, int amount_of_solutions, double epsilon);
 
 
 #endif //LAB_1_3_FUNCTIONS_H

@@ -1,26 +1,28 @@
 #include <stdio.h>
 #include "functions.h"
 
-
 int main(int argc, char** argv) {
+    if(argc < 2){
+        printf("\nNo flags were given");
+        return 0;
+    }
     if(check_flag(&argv[1]) == 0){
         printf("\nInvalid flag: %s", argv[1]);
         return 0;
     }
     char flag = argv[1][1];
-    double* permutation;
-    double* roots;
+    double* permutation = NULL;
+    double* roots = NULL;
 
-    char* ptr;
-    double epsilon;
-    int check;
-    int number_1;
-    int number_2;
+    char* ptr = "";
+    double epsilon = 0;
+    int check = 0;
+    int number_1 = 0;
+    int number_2 = 0;
 
-    double max;
-    double sum;
-    double side;
-
+    double max = 0;
+    double sum = 0;
+    double side = 0;
 
     switch (flag){
         case 'q':
@@ -58,6 +60,7 @@ int main(int argc, char** argv) {
                     for(int i = 0; i < EQUATION_COEFFICIENTS; i++){
                         if(!check_double(&argv[3 + i])){
                             printf("%s is not a valid float value ;(\n", argv[3+i]);
+                            free(permutation);
                             return 0;
                         }
                         permutation[i] = strtod(argv[3 + i], &ptr);
@@ -71,35 +74,18 @@ int main(int argc, char** argv) {
                     }
                     quicksort(&permutation, 0, EQUATION_COEFFICIENTS - 1, epsilon);
 
-                    solve_equation(&permutation, &roots, 2, epsilon);
                     printf("solutions:\n(%g) * x^2 + (%g) * x + (%g) = 0:\n", permutation[0], permutation[1], permutation[2]);
-                    if(roots == NULL){
+                    if(!solve_equation(&permutation, &roots, 2, epsilon)){
                         printf("both roots are within the field C of complex numbers\n");
-                        free(roots);
-                        roots = (double*)malloc(sizeof(double)*ROOTS);
-                        if(roots == NULL){
-                            printf("Internal Error sorry T_T\n");
-                            free(permutation);
-                            free(roots);
-                            return 1;
-                        }
                     }else{
                         printf("x_1 = %g\nx_2 = %g\n", roots[0], roots[1]);
                     }
 
                     while(generate_permutation(&permutation, EQUATION_COEFFICIENTS, epsilon)){
-                        solve_equation(&permutation, &roots, 2, epsilon);
                         printf("\n(%g) * x^2 + (%g) * x + (%g) = 0:\n", permutation[0], permutation[1], permutation[2]);
-                        if(roots == NULL){
+
+                        if(!solve_equation(&permutation, &roots, 2, epsilon)){
                             printf("both roots are within the field C of complex numbers\n");
-                            free(roots);
-                            roots = (double*)malloc(sizeof(double)*ROOTS);
-                            if(roots == NULL){
-                                printf("Internal Error sorry T_T\n");
-                                free(permutation);
-                                free(roots);
-                                return 1;
-                            }
                         }else{
                             printf("x_1 = %g\nx_2 = %g\n", roots[0], roots[1]);
                         }

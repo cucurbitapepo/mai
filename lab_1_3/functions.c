@@ -115,7 +115,7 @@ int generate_permutation(double** array, int array_length, double epsilon){
     return 1;
 }
 
-void solve_equation(double** permutation, double** solutions, int amount_of_solutions, double epsilon){
+int solve_equation(double** permutation, double** solutions, int amount_of_solutions, double epsilon){
     double discriminant;
     double a = (*permutation)[0];
     double b = (*permutation)[1];
@@ -130,12 +130,12 @@ void solve_equation(double** permutation, double** solutions, int amount_of_solu
     }else{
         discriminant = binary_power(b, 2) - 4 * a * c;
         if(discriminant < 0){
-            *solutions = NULL;
-            return;
+            return 0;
         }
         solution_1 = (-b + root_of_power(discriminant, 2, epsilon)) / (2*a);
         solution_2 = (-b - root_of_power(discriminant, 2, epsilon)) / (2*a);
     }
     (*solutions)[0] = solution_1;
     (*solutions)[1] = solution_2;
+    return 1;
 }
