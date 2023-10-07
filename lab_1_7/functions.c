@@ -122,14 +122,16 @@ char digit(int modulo)
 int to_system(int value, char** destination, int base)
 {
 
-    int length = floor(log(value)/log(10)) + 1;
+    int length = floor(log(value)/log(base)) + 2;
+    printf("\n%d\n", length);
     *destination = (char*)malloc(sizeof(char)*length);
     if(destination == NULL) return m_alloc_fail;
-    for(int i = length - 1; i >= 0; i--)
+    for(int i = length - 2; i >= 0; i--)
     {
         (*destination)[i] = digit(value % base);
         value /= base;
     }
+    (*destination)[length-1] = '\0';
     return success;
 }
 
