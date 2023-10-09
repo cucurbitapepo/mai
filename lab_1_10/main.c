@@ -3,16 +3,10 @@
 int main() {
     char* input = "";
     char* result = "";
-    int c = '1';
     int length = 0;
     int max = -1;
     int current_string_value = 0;
     int sign = 0;
-
-    char* to_system_9 = "";
-    char* to_system_18 = "";
-    char* to_system_27 = "";
-    char* to_system_36 = "";
 
     int base = 0;
     scanf("%d", &base);
