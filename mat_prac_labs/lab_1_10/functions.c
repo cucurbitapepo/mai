@@ -21,6 +21,7 @@ int to_decimal(char** string, int length, int base, int* sign)
         (*string)++;
         length--;
     }
+    if(length == 0) return 0;
     int result = 0;
     int next;
     for(int i = 0; i < length; i++)
@@ -92,7 +93,14 @@ char digit(int modulo)
 
 int to_system(int value, char** destination, int base)
 {
-
+    if (value == 0)
+    {
+        *destination = (char*)malloc(sizeof(char)*1);
+        if(*destination == NULL) return memory_fail;
+        (*destination)[0] = '0';
+        (*destination)[1] = '\0';
+        return success;
+    }
     int length = floor(log(value)/log(base)) + 2;
     *destination = (char*)malloc(sizeof(char)*length);
     if(destination == NULL) return memory_fail;

@@ -10,7 +10,7 @@ int main() {
 
     int base = 0;
     scanf("%d", &base);
-    if(base == 0)
+    if(base <= 0)
     {
         printf("Inappropriate base given.");
         return 0;
@@ -29,6 +29,11 @@ int main() {
         {
             printf("%s is not a number is system with base %d\n", input, base);
             continue;
+        }
+        else if(abs(current_string_value) == 0)
+        {
+            max = 0;
+            result = "0\0";
         }
         else if(max < abs(current_string_value))
         {
