@@ -22,16 +22,6 @@ void skip_splits(FILE** file, int* c)
     }
 }
 
-void skip_word(FILE** file, int* c)
-{
-    while(*c != '\n' && *c != ' ' && *c != '\t')
-    {
-        if(*c == EOF) break;
-        *c = fgetc(*file);
-    }
-    skip_splits(file, c);
-}
-
 int write_from_to(FILE** input, FILE** output, int* c)
 {
     while(*c != ' ' && *c != '\n' && *c != '\t' && *c != EOF)
