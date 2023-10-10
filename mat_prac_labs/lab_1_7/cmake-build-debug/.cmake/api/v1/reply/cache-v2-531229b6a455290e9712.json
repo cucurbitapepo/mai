@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "d:/mat_prac_labs/lab_1_7/cmake-build-debug"
+			"value" : "d:/mai/mat_prac_labs/lab_1_7/cmake-build-debug"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -431,7 +431,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/mat_prac_labs/lab_1_7/cmake-build-debug/CMakeFiles/pkgRedirects"
+			"value" : "D:/mai/mat_prac_labs/lab_1_7/cmake-build-debug/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "D:/mat_prac_labs/lab_1_7"
+			"value" : "D:/mai/mat_prac_labs/lab_1_7"
 		},
 		{
 			"name" : "CMAKE_INSTALL_PREFIX",
@@ -1131,7 +1131,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/mat_prac_labs/lab_1_7/cmake-build-debug"
+			"value" : "D:/mai/mat_prac_labs/lab_1_7/cmake-build-debug"
 		},
 		{
 			"name" : "lab_1_7_IS_TOP_LEVEL",
@@ -1155,7 +1155,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "D:/mat_prac_labs/lab_1_7"
+			"value" : "D:/mai/mat_prac_labs/lab_1_7"
 		}
 	],
 	"kind" : "cache",
