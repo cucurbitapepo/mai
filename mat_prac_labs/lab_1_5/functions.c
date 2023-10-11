@@ -4,7 +4,6 @@
 
 #include "functions.h"
 
-
 int check_double(char** word)
 {
     double value;

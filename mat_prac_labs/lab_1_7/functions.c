@@ -99,7 +99,6 @@ int to_system(int value, char** destination, int base)
 {
 
     int length = floor(log(value)/log(base)) + 2;
-    printf("\n%d\n", length);
     *destination = (char*)malloc(sizeof(char)*length);
     if(destination == NULL) return m_alloc_fail;
     for(int i = length - 2; i >= 0; i--)

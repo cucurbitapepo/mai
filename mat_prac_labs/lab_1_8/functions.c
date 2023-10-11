@@ -34,7 +34,7 @@ int notation(char** string, int length)
             return 0;
         }
     }
-    return base;
+    return (base > 1) ? base : 0;
 }
 
 int to_decimal(char** string, int length, int base, int* sign)
@@ -58,8 +58,8 @@ int to_decimal(char** string, int length, int base, int* sign)
     int next;
     for(int i = 0; i < length; i++)
     {
-        char c = (*string)[i];
-        if(!isalnum(c) || tolower(c) != c)
+        char c = tolower((*string)[i]);
+        if(!isalnum(c))
         {
             return not_a_number;
         }

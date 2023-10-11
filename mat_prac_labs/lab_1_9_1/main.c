@@ -38,6 +38,9 @@ int main(int argc, char** argv)
     printf("Array generated.\nMax element: [%d] = %d\nMin element: [%d] = %d\n",max_pos, array[max_pos], min_pos, array[min_pos]);
     swap(&array[min_pos], &array[max_pos]);
     printf("Max element: [%d] = %d \nMin element: [%d] = %d\n", max_pos, array[max_pos], min_pos, array[min_pos]);
-
+    for(int i = 0; i < CONSTANT; i++)
+    {
+        printf("%d ", array[i]);
+    }
     return 0;
 }
