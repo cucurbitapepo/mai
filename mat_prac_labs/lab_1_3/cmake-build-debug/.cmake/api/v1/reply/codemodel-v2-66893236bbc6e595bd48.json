@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "D:/clion/lab_1_3/cmake-build-debug",
-		"source" : "D:/clion/lab_1_3"
+		"build" : "D:/mai/mat_prac_labs/lab_1_3/cmake-build-debug",
+		"source" : "D:/mai/mat_prac_labs/lab_1_3"
 	},
 	"version" : 
 	{

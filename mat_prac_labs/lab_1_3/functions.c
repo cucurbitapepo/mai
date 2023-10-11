@@ -51,7 +51,7 @@ int check_double(char** word){
     char* end;
     value = strtod(*word, &end);
 
-    if(end == *word){
+    if(end != 0){
         return 0;
     }
     if(value <= 0.0){
