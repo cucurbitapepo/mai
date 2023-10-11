@@ -22,7 +22,7 @@ int check_double(char** word)
     char* end;
     value = strtod(*word, &end);
 
-    if(end == *word)
+    if(*end != 0)
     {
         return not_a_number;
     }
