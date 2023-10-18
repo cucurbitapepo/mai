@@ -28,7 +28,7 @@ int main(int argc, char** argv) {
             if(argc != 3)
             {
                 printf("Invalid amount of arguments\n");
-                return 0;
+                break;
             }
             result = xor8(origin);
             printf("Result of XOR for each byte is %d\n", result);
@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
             if(argc != 3)
             {
                 printf("Invalid amount of arguments\n");
-                return 0;
+                break;
             }
             result = xor32(origin);
             printf("Result of XOR for each 4 bytes is %d\n", result);
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
             if(argc != 4)
             {
                 printf("Invalid amount of arguments\n");
-                return 0;
+                break;
             }
             length = strlen(argv[3]);
             hex = to_decimal(&argv[3], length, 16, &sign);
@@ -65,10 +65,11 @@ int main(int argc, char** argv) {
         }
         default:
         {
-            printf("unexpected error ???");
-            return 1;
+            printf("unexpected error ???\n");
+            break;
         }
     }
+    fclose(origin);
     printf("Program finished\n");
     return 0;
 }
