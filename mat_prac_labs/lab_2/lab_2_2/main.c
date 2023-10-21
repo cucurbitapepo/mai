@@ -3,7 +3,8 @@
 #define BASE 2.718281828
 #define EXPONENT 2
 
-int main() {
+int main()
+{
 
     double precision = 1.0/EPSILON;
     double x = 0;
@@ -38,7 +39,7 @@ int main() {
            "Recursive function      Non-recursive function      pow()\n"
            "%g                 %g                     %g\n", x, x2, x3);
 
-    if(avg_geometric(0.00000001, &results_for_non_integer_exponent, 3, 1.0, 2.0, 3.0) == SUCCESS)
+    if(avg_geometric(EPSILON, &results_for_non_integer_exponent, 3, 1.0, 2.0, 3.0) == SUCCESS)
     {
         f = floor(results_for_non_integer_exponent[0]*precision)/precision;
         f2 = floor(results_for_non_integer_exponent[1]*precision)/precision;

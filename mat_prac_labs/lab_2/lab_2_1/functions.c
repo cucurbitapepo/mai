@@ -20,6 +20,19 @@ int string_length(char** string)
     return count;
 }
 
+int is_number(const char* string){
+    size_t string_length_ = string_length(&string);
+    int i = 0;
+    if((string)[0] == '-'){
+        i = 1;
+    }
+    for( ; i < string_length_; i++){
+        if(!isdigit(string[i])) return not_a_number;
+    }
+    return number;
+}
+
+
 int reverse_str(char** string, char** result)
 {
     int count = string_length(string);
@@ -52,27 +65,13 @@ int odd_to_upper(char** origin, char** result)
     return success;
 }
 
-int rearrange_string(char** result, char** origin)
+int concatenate(char** string_first, char** result)
 {
-    int length = string_length(origin);
-    *result = (char*)malloc(sizeof(char)*(length+1));
-    if(*result == NULL)
+    while(**string_first != '\0')
     {
-        return memory_error;
-    }
-    for(int i = 0; i < length; i++)
-    {
-        if(isalpha((*origin)[i]))
-        {
-
-        }
+        **result = **string_first;
+        (*string_first)++;
+        (*result)++;
     }
     return success;
 }
-
-int compare(void const* a, void const* b)
-{
-    if(isalpha(*(int*)a) && isalpha())
-}
-
-int concatenate;

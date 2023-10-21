@@ -12,17 +12,16 @@
 enum exit_codes
 {
     memory_error,
+    not_a_number,
+    number,
     success,
 };
 
 int check_flag(char** word);
+int is_number(const char* string);
 int string_length(char** str);
 int reverse_str(char** string, char** result);
 int odd_to_upper(char** origin, char** result);
-int rearrange_string(char** result, char** origin);
-
-int compare(void const* a, void const* b);
-
-
+int concatenate(char** string_first, char** result);
 
 #endif //LAB_2_1_FUNCTIONS_H
