@@ -12,6 +12,7 @@ int check_flag(char** word)
 
 int string_length(char** string)
 {
+    if(*string == NULL) return 0;
     int count = 0;
     while((*string)[count] != '\0')
     {

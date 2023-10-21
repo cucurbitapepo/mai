@@ -97,7 +97,8 @@ int main(int argc, char** argv) {
             break;
         }
         case 'c':
-        {
+        {//redo
+         //concat(char** str1, char** str2, char** result) { *result = malloc...}
             if(argc < 4)
             {
                 printf("Invalid amount of arguments.\n");
