@@ -54,12 +54,12 @@ int is_convex(int vertex_amount, ...)
         else if (z > 0)
             flag |= 2;
         if (flag == 3)
-            return(concave);
+            return(convex);
     }
     if (flag != 0)
-        return(convex);
-    else
         return(concave);
+    else
+        return(convex);
 }
 
 double polynomial(double value, int degree, ...)

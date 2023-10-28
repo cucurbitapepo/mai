@@ -4,7 +4,7 @@
 #define DEGREE 1
 
 int main() {
-    int _convex = is_convex(VERTEX_AMOUNT, (point_2d){1, 1}, (point_2d){1,1}, (point_2d){1,1}, (point_2d){1,1});
+    int _convex = is_convex(VERTEX_AMOUNT, (point_2d){0, 0}, (point_2d){0,1}, (point_2d){0.2,0.2}, (point_2d){1,0});
     if(_convex == memory_error)
     {
         printf("memory_error\n");
