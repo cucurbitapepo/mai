@@ -381,7 +381,9 @@ int dialogue(const char* input_path, int argc, const char** argv)
 
     struct Student* students;
     size_t size;
-    switch(read_from_file(in, &students, &size))
+    int exit_code = read_from_file(in, &students, &size);
+    fclose(in);
+    switch(exit_code)
     {
         case memory_error:
         {
