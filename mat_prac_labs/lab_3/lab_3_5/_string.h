@@ -37,5 +37,6 @@ int are_equal(struct String* s1, struct String* s2);
 int copy(struct String* from, struct String** to);
 struct String* copy_to_new(struct String* string);
 int concat_strings(struct String* to, struct String* from);
+void delete_string(struct String* string);
 
 #endif //LAB_3_4_FUNCTIONS_H

@@ -545,6 +545,13 @@ int dialogue(const char* input_path, int argc, const char** argv)
         }
     }
     for(int j = 0; j <= i; j++) free(line[j]);
+    for(i = 0; i < size; i++)
+    {
+        free(students[i].marks);
+        delete_string(&students[i].first_name);
+        delete_string(&students[i].last_name);
+        delete_string(&students[i].group);
+    }
     free(students);
     if(out != stdout && out != NULL) fclose(out);
     fclose(in);

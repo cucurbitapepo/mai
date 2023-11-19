@@ -94,3 +94,9 @@ int concat_strings(struct String* to, struct String* from)
     to->length += from->length;
     return success;
 }
+
+void delete_string(struct String* string)
+{
+    if(string->string != NULL) free(string->string);
+    string->length = 0;
+}
