@@ -6,6 +6,7 @@
 
 int insert(struct Node* node, char* word, int amount)
 {
+    if(!strlen(word)) return success;
     if(node->word == NULL)
     {
         node->word = strdup(word);
@@ -208,7 +209,7 @@ void find_n_most_often(struct Node* head, int** amounts, char*** words, int amou
 void print_tree(const struct Node *q, long n)
 {
     long i;
-    if (q)
+    if (q && q->word)
     {
         print_tree(q->right, n+7);
         for (i = 0; i < n; i++) printf(" ");
@@ -219,7 +220,7 @@ void print_tree(const struct Node *q, long n)
 
 void delete_tree(struct Node* tree)
 {
-    if(tree == NULL) return;
+    if(tree == NULL || tree->word == NULL || tree->left == NULL || tree->right == NULL) return;
     delete_tree(tree->left);
     delete_tree(tree->right);
     free(tree->word);

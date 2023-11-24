@@ -37,10 +37,10 @@ int main(int argc, char** argv) {
                     argc--;
                     argv[i+1] = argv[argc];
                     separators[i-2] = ' ';
+                    i++;
                 }
             }
         }
-        if(!strcmp(argv[i], "'") && i <= argc - 1) { if(!strcmp(argv[i+1], "'")) {separators[i] = ' '; i++;} }
         else if(len > 4 || len < 3 || argv[i][0] != '\'' || argv[i][len-1] != '\'')
         {
             printf("Invalid separator input. Put the symbol in single quotes.\n");
@@ -59,6 +59,11 @@ int main(int argc, char** argv) {
                 case 't':
                 {
                     separators[i-2] = '\t';
+                    break;
+                }
+                case '\'':
+                {
+                    separators[i-2] = '\\';
                     break;
                 }
                 default:
@@ -82,6 +87,7 @@ int main(int argc, char** argv) {
 
     tree = (struct Node*)malloc(sizeof(struct Node));
     tree->word = NULL;
+    tree->height = 0;
 
     if(read_from_file(input, tree, separators) == memory_error)
     {

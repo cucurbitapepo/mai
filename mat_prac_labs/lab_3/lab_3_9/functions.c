@@ -84,20 +84,25 @@ int is_number(const char* string)
 
 int save_to(FILE* dest, struct Node* tree)
 {
-    struct Q* q;
-    q = init(tree->height);
-    if(q == NULL) return memory_error;
-    push(q, tree);
-    while(!is_empty(q))
+    if(tree && tree->word)
     {
-        struct Node* tmp = pop(q);
-        if(tmp == NULL) return memory_error;
-        if(fprintf(dest, "%lld+%s+", tmp->amount, tmp->word) < 0) return memory_error;
-        if(tmp->left != NULL) push(q, tmp->left);
-        if(tmp->right != NULL) push(q, tmp->right);
+
+        struct Q* q;
+        q = init(tree->height);
+        if(q == NULL) return memory_error;
+        push(q, tree);
+        while(!is_empty(q))
+        {
+            struct Node* tmp = pop(q);
+            if(tmp == NULL) return memory_error;
+            if(fprintf(dest, "%lld+%s+", tmp->amount, tmp->word) < 0) return memory_error;
+            if(tmp->left != NULL) push(q, tmp->left);
+            if(tmp->right != NULL) push(q, tmp->right);
+        }
+        delete_q(q);
     }
-    delete_q(q);
     return success;
+
 }
 
 int load_from(FILE* origin, struct Node* _tree)
@@ -107,8 +112,8 @@ int load_from(FILE* origin, struct Node* _tree)
     while(!feof(origin))
     {
         struct Node tree;
-        int len;
-        char* amount;
+        int len = 0;
+        char* amount = strdup("");
         get_string(origin, &amount, &len, "+");
         get_string(origin, &tree.word, &len, "+");
         insert(_tree, tree.word, atoi(amount));
