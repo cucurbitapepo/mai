@@ -4,6 +4,7 @@
 
 #include "tree.h"
 #include "functions.h"
+#include "queue.h"
 
 int get_string(FILE* stream, char** string, int* length, const char* separators)
 {
@@ -24,6 +25,7 @@ int get_string(FILE* stream, char** string, int* length, const char* separators)
             if (c == EOF) return eof_reached;
             if (c == '\n') return newline_reached;
             if (c == '\0') return endl_reached;
+            return success;
         }
         (*string)[(*length)++] = c;
         if(*length >= capacity)
@@ -51,7 +53,7 @@ int read_from_file(FILE* stream, struct Node* head, char* separators)
         char* string;
         int length;
         if(get_string(stream, &string, &length, separators) == memory_error) return memory_error;
-        if(length != 0) insert(head, string);
+        if(length != 0) insert(head, string, 0);
     }
 
     return success;
@@ -65,6 +67,9 @@ int get_cmd_code(const char* command)
     if(!strcmp(command, "longest")) return longest;
     if(!strcmp(command, "print")) return print;
     if(!strcmp(command, "quit")) return quit;
+    if(!strcmp(command, "save")) return save;
+    if(!strcmp(command, "load")) return load;
+    if(!strcmp(command, "height")) return height;
     return unknown;
 }
 
@@ -75,4 +80,41 @@ int is_number(const char* string)
         if(!isdigit(string[i])) return 0;
     }
     return 1;
+}
+
+int save_to(FILE* dest, struct Node* tree)
+{
+    struct Q* q;
+    q = init(tree->height);
+    if(q == NULL) return memory_error;
+    push(q, tree);
+    while(!is_empty(q))
+    {
+        struct Node* tmp = pop(q);
+        if(tmp == NULL) return memory_error;
+        if(fprintf(dest, "%lld+%s+", tmp->amount, tmp->word) < 0) return memory_error;
+        if(tmp->left != NULL) push(q, tmp->left);
+        if(tmp->right != NULL) push(q, tmp->right);
+    }
+    delete_q(q);
+    return success;
+}
+
+int load_from(FILE* origin, struct Node* _tree)
+{
+    struct Q* q = init(_tree->height);
+    if(q == NULL) return memory_error;
+    while(!feof(origin))
+    {
+        struct Node tree;
+        int len;
+        char* amount;
+        get_string(origin, &amount, &len, "+");
+        get_string(origin, &tree.word, &len, "+");
+        insert(_tree, tree.word, atoi(amount));
+        //_tree->amount = tree.amount;
+        fgetc(origin);
+
+    }
+    return success;
 }

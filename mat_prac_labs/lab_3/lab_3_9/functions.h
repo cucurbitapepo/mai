@@ -19,6 +19,9 @@ enum cmd_codes
     longest,
     common,
     print,
+    save,
+    load,
+    height,
     quit,
     unknown,
 };
@@ -35,5 +38,8 @@ int get_string(FILE* stream, char** string, int* length, const char* separators)
 int read_from_file(FILE* stream, struct Node* head, char* separators);
 int get_cmd_code(const char* command);
 int is_number(const char* string);
+int save_to(FILE* dest, struct Node* tree);
+int load_from(FILE* origin, struct Node* tree);
+
 
 #endif //LAB_3_9_FUNCTIONS_H

@@ -4,12 +4,15 @@
 
 #include "tree.h"
 
-int insert(struct Node* node, char* word)
+int insert(struct Node* node, char* word, int amount)
 {
     if(node->word == NULL)
     {
-        node->word = word;
-        node->amount = 1;
+        node->word = strdup(word);
+        if(node->word == NULL) return memory_error;
+        node->word = strdup(word);
+        if(amount != 0) node->amount = amount;
+        else node->amount = 1;
         node->height = 0;
         node->right = NULL;
         node->left = NULL;
@@ -24,12 +27,13 @@ int insert(struct Node* node, char* word)
             node->left = (struct Node*)malloc(sizeof(struct Node));
             if(node->left == NULL) return memory_error;
             node->left->word = word;
-            node->left->amount = 1;
+            if(amount != 0) node->left->amount = amount;
+            else node->left->amount = 1;
             node->left->height = 0;
             node->left->right = NULL;
             node->left->left = NULL;
         }
-        else insert(node->left, word);
+        else insert(node->left, word, amount);
     }
     else
     {
@@ -38,12 +42,13 @@ int insert(struct Node* node, char* word)
             node->right = (struct Node*)malloc(sizeof(struct Node));
             if(node->right == NULL) return memory_error;
             node->right->word = word;
-            node->right->amount = 1;
+            if(amount != 0) node->right->amount = amount;
+            else node->right->amount = 1;
             node->right->height = 0;
             node->right->right = NULL;
             node->right->left = NULL;
         }
-        else insert(node->right, word);
+        else insert(node->right, word, amount);
     }
 
     update_height(node);

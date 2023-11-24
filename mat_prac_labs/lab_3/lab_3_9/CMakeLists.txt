@@ -7,4 +7,6 @@ add_executable(lab_3_9 main.c
         functions.c
         functions.h
         tree.c
-        tree.h)
+        tree.h
+        queue.c
+        queue.h)

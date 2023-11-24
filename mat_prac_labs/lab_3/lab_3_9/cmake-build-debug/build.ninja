@@ -67,6 +67,12 @@ build CMakeFiles/lab_3_9.dir/tree.c.obj: C_COMPILER__lab_3_9_unscanned_Debug D$:
   OBJECT_DIR = CMakeFiles\lab_3_9.dir
   OBJECT_FILE_DIR = CMakeFiles\lab_3_9.dir
 
+build CMakeFiles/lab_3_9.dir/queue.c.obj: C_COMPILER__lab_3_9_unscanned_Debug D$:/mai/mat_prac_labs/lab_3/lab_3_9/queue.c || cmake_object_order_depends_target_lab_3_9
+  DEP_FILE = CMakeFiles\lab_3_9.dir\queue.c.obj.d
+  FLAGS = -g -std=gnu11 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\lab_3_9.dir
+  OBJECT_FILE_DIR = CMakeFiles\lab_3_9.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target lab_3_9
@@ -75,7 +81,7 @@ build CMakeFiles/lab_3_9.dir/tree.c.obj: C_COMPILER__lab_3_9_unscanned_Debug D$:
 #############################################
 # Link the executable lab_3_9.exe
 
-build lab_3_9.exe: C_EXECUTABLE_LINKER__lab_3_9_Debug CMakeFiles/lab_3_9.dir/main.c.obj CMakeFiles/lab_3_9.dir/functions.c.obj CMakeFiles/lab_3_9.dir/tree.c.obj
+build lab_3_9.exe: C_EXECUTABLE_LINKER__lab_3_9_Debug CMakeFiles/lab_3_9.dir/main.c.obj CMakeFiles/lab_3_9.dir/functions.c.obj CMakeFiles/lab_3_9.dir/tree.c.obj CMakeFiles/lab_3_9.dir/queue.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\lab_3_9.dir

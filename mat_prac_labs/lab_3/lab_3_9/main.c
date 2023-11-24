@@ -100,7 +100,11 @@ int main(int argc, char** argv) {
            "common [number] - first [number] common words in text\n"
            "shortest - shortest word in text\n"
            "longest - guess what\n"
-           "quit - guess what??\n");
+           "save [file] - save tree to file\n"
+           "load [file] - load tree from file\n"
+           "height - get height\n"
+           "quit - guess what??\n"
+           );
     fflush(stdout);
 
     response[0] = strdup("");
@@ -193,6 +197,34 @@ int main(int argc, char** argv) {
             case print:
             {
                 print_tree(tree, 0);
+                break;
+            }
+            case save:
+            {
+                if(i != 2) { printf("invalid input\n"); break; }
+                FILE* dest = fopen( response[1], "w");
+                if (dest == NULL) { printf("Couldn't open file at %s\n", response[1]); break; }
+                if(save_to(dest, tree) == memory_error) printf("Couldn't write to file %s\n", response[1]);
+                fclose(dest);
+                printf("Tree was written to '%s'\n", response[1]);
+                break;
+            }
+            case load:
+            {
+                if(i != 2) { printf("invalid input\n"); break; }
+                FILE* origin = fopen(response[1], "r");
+                if (origin == NULL) { printf("Couldn't open file at %s\n", response[1]); break; }
+                delete_tree(tree);
+                tree->word = NULL;
+                tree->left = NULL;
+                tree->right = NULL;
+                load_from(origin, tree);
+                printf("Tree loaded from '%s'\n", response[1]);
+                break;
+            }
+            case height:
+            {
+                printf("Current tree height is %d\n", tree->height);
                 break;
             }
             case quit:

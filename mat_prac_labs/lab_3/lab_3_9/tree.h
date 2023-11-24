@@ -25,7 +25,7 @@ struct Node
     struct Node* right;
 };
 
-int insert(struct Node* node, char* word);
+int insert(struct Node* node, char* word, int amount);
 const struct Node* get_min(const struct Node* node);
 const struct Node* get_max(const struct Node* node);
 struct Node* delete(struct Node* head, char* keyword);
