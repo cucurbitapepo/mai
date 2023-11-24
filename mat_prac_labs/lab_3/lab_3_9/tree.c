@@ -27,7 +27,7 @@ int insert(struct Node* node, char* word, int amount)
         {
             node->left = (struct Node*)malloc(sizeof(struct Node));
             if(node->left == NULL) return memory_error;
-            node->left->word = word;
+            node->left->word = strdup(word);
             if(amount != 0) node->left->amount = amount;
             else node->left->amount = 1;
             node->left->height = 0;
@@ -42,7 +42,7 @@ int insert(struct Node* node, char* word, int amount)
         {
             node->right = (struct Node*)malloc(sizeof(struct Node));
             if(node->right == NULL) return memory_error;
-            node->right->word = word;
+            node->right->word = strdup(word);
             if(amount != 0) node->right->amount = amount;
             else node->right->amount = 1;
             node->right->height = 0;
@@ -51,8 +51,10 @@ int insert(struct Node* node, char* word, int amount)
         }
         else insert(node->right, word, amount);
     }
-
     update_height(node);
+    if(amount == 0)
+    {
+    }
     balance(node);
     return success;
 }
@@ -142,7 +144,7 @@ void left_rotate(struct Node* node)
     node->left = node->right;
     node->right = node->left->right;
     node->left->right = node->left->left;
-    node->left->right = buf;
+    node->left->left = buf;
     update_height(node->left);
     update_height(node);
 }
@@ -164,7 +166,7 @@ void balance(struct Node* node)
 
 int find_word(struct Node* node, const char* word)
 {
-    if(node == NULL) return 0;
+    if(node->word == NULL) return 0;
     int cmp = strcmp(word, node->word);
     if(!cmp) return node->amount;
     if(cmp < 0) find_word(node->left, word);
@@ -173,7 +175,7 @@ int find_word(struct Node* node, const char* word)
 
 void find_shortest(const struct Node* head, char** word, int max)
 {
-    if(head == NULL) return;
+    if(head->word == NULL || head == NULL) return;
     if(max > strlen(head->word)) { *word = head->word; max = strlen(head->word); }
     find_shortest(head->left, word, max);
     find_shortest(head->right, word, max);
@@ -181,7 +183,7 @@ void find_shortest(const struct Node* head, char** word, int max)
 
 void find_longest(const struct Node* head, char** word, int min)
 {
-    if(head == NULL) return;
+    if(head->word == NULL || head == NULL) return;
     if(min < strlen(head->word)) { *word = head->word; min = strlen(head->word); }
     find_longest(head->left, word, min);
     find_longest(head->right, word, min);
@@ -189,7 +191,7 @@ void find_longest(const struct Node* head, char** word, int min)
 
 void find_n_most_often(struct Node* head, int** amounts, char*** words, int amount)
 {
-    if(head == NULL) return;
+    if(head->word == NULL || head == NULL) return;
     for(int i = 0; i < amount; i++)
     {
         if((*amounts)[i] < head->amount)

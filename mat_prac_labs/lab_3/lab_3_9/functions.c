@@ -54,6 +54,7 @@ int read_from_file(FILE* stream, struct Node* head, char* separators)
         int length;
         if(get_string(stream, &string, &length, separators) == memory_error) return memory_error;
         if(length != 0) insert(head, string, 0);
+        free(string);
     }
 
     return success;
@@ -107,19 +108,26 @@ int save_to(FILE* dest, struct Node* tree)
 
 int load_from(FILE* origin, struct Node* _tree)
 {
-    struct Q* q = init(_tree->height);
-    if(q == NULL) return memory_error;
     while(!feof(origin))
     {
         struct Node tree;
         int len = 0;
-        char* amount = strdup("");
-        get_string(origin, &amount, &len, "+");
-        get_string(origin, &tree.word, &len, "+");
+        char* amount;
+        if(get_string(origin, &amount, &len, "+") == memory_error)
+        {
+            free(amount);
+            free(tree.word);
+            return memory_error;
+        }
+        if(get_string(origin, &tree.word, &len, "+") == memory_error)
+        {
+            free(amount);
+            free(tree.word);
+            return memory_error;
+        }
         insert(_tree, tree.word, atoi(amount));
-        //_tree->amount = tree.amount;
-        fgetc(origin);
-
+        free(tree.word);
+        free(amount);
     }
     return success;
 }

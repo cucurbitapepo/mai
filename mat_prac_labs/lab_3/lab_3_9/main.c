@@ -1,3 +1,4 @@
+
 #include "functions.h"
 
 int main(int argc, char** argv) {
@@ -25,10 +26,19 @@ int main(int argc, char** argv) {
         return 0;
     }
     input = fopen(argv[1], "r");
-    for(int i = 2; i < argc; i++)
+    for(i = 2; i < argc; i++)
     {
         len = strlen(argv[i]);
-        if(strlen(argv[i]) == 1 && i < argc - 1)
+        if(len == 2)
+        {
+            if(argv[i][0] == argv[i][1] && argv[i][1] == '\'')
+            {
+                printf("empty separator was input. Take into consideration, that the program will separate each symbol.\n");
+                separators = strdup("");
+                break;
+            }
+        }
+        if(len == 1 && i < argc - 1)
         {
             if(strlen(argv[i+1]) == 1)
             {
@@ -76,6 +86,7 @@ int main(int argc, char** argv) {
         }
         else separators[i-2] = argv[i][1];
     }
+    if(separators == NULL) {printf("Memory error.\n"); return 0; }
     separators[argc-2] = '\0';
 
     if(input == NULL)
@@ -117,6 +128,8 @@ int main(int argc, char** argv) {
 
     while(strcmp(response[0], "quit"))
     {
+        response[0] = NULL;
+        response[1] = NULL;
         i = 1;
 
         reached = get_string(stdin, &response[0], &length, " \n");
@@ -148,7 +161,7 @@ int main(int argc, char** argv) {
                 if(i != 2) { printf("inappropriate input\n"); break; }
                 word = response[1];
                 found = find_word(tree, word);
-                printf("Word '%s' occurs %d times in the tree.\n", response[1], found);
+                printf("Word '%s' occurs %d times in the text.\n", response[1], found);
                 break;
             }
             case common:
@@ -162,8 +175,9 @@ int main(int argc, char** argv) {
                     printf("memory error\n");
                     delete_tree(tree);
                     tree = NULL;
-                    free(response[0]);
-                    free(response[1]);
+                    if(response[0] != NULL) free(response[0]);
+                    if(response[1] != NULL) free(response[1]);
+                    if(tree != NULL) delete_tree(tree); tree = NULL;
                     return 0;
                 }
                 amounts = (int*)calloc(size, sizeof(int));
@@ -172,24 +186,26 @@ int main(int argc, char** argv) {
                     printf("memory error\n");
                     delete_tree(tree);
                     tree = NULL;
-                    free(words);
-                    free(response[0]);
-                    free(response[1]);
+                    if(words != NULL) free(words);
+                    if(response[0] != NULL) free(response[0]);
+                    if(response[1] != NULL) free(response[1]);
                     return 0;
                 }
 
                 find_n_most_often(tree, &amounts, &words, size);
                 printf("Found %d most often words:\n",size);
-                for(int k = 0; k < size; k++) printf("%d - %s\n", amounts[k], words[k]);
-                free(words);
-                free(amounts);
+                for(int k = 0; amounts[k] > 0; k++) printf("%d - %s\n", amounts[k], words[k]);
+                printf("Input ended, не упала\n");
+                if(words != NULL) free(words);
+                if(amounts != NULL) free(amounts);
                 break;
             }
             case shortest:
             {
                 if(i != 1) { printf("inappropriate input\n"); break; }
                 find_shortest(tree, &word, INT_MAX);
-                printf("Shortest word found is '%s'\n", word);
+                if(word != NULL) printf("Shortest word found is '%s'\n", word);
+                printf("Input ended, не упала\n");
                 break;
             }
 
@@ -197,19 +213,29 @@ int main(int argc, char** argv) {
             {
                 if(i != 1) { printf("inappropriate input\n"); break; }
                 find_longest(tree, &word, 0);
-                printf("Longest word found is '%s'\n", word);
+                if(word != NULL) printf("Longest word found is '%s'\n", word);
+                printf("Input ended, не упала\n");
                 break;
             }
             case print:
             {
                 print_tree(tree, 0);
+                printf("Tree was printed\n");
                 break;
             }
             case save:
             {
                 if(i != 2) { printf("invalid input\n"); break; }
                 FILE* dest = fopen( response[1], "w");
-                if (dest == NULL) { printf("Couldn't open file at %s\n", response[1]); break; }
+                if (dest == NULL)
+                {
+                    printf("memory error\n");
+                    delete_tree(tree);
+                    tree = NULL;
+                    if(response[0] != NULL) free(response[0]);
+                    if(response[1] != NULL) free(response[1]);
+                    return 0;
+                }
                 if(save_to(dest, tree) == memory_error) printf("Couldn't write to file %s\n", response[1]);
                 fclose(dest);
                 printf("Tree was written to '%s'\n", response[1]);
@@ -224,7 +250,16 @@ int main(int argc, char** argv) {
                 tree->word = NULL;
                 tree->left = NULL;
                 tree->right = NULL;
-                load_from(origin, tree);
+                if(load_from(origin, tree) == memory_error)
+                {
+                    printf("memory error\n");
+                    delete_tree(tree);
+                    tree = NULL;
+                    if(response[0] != NULL) free(response[0]);
+                    if(response[1] != NULL) free(response[1]);
+                    return 0;
+                }
+                fclose(origin);
                 printf("Tree loaded from '%s'\n", response[1]);
                 break;
             }
@@ -249,11 +284,10 @@ int main(int argc, char** argv) {
                 break;
             }
         }
+        if(response[0] != NULL) free(response[0]);
+        if(response[1] != NULL) free(response[1]);
         fflush(stdout);
     }
     if(tree != NULL) delete_tree(tree);
-    if(response[0] != NULL) free(response[0]);
-    if(response[1] != NULL) free(response[1]);
-    if(word != NULL) free(word);
     return 0;
 }
