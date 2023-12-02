@@ -3,7 +3,7 @@
 
 int main() {
     strct** results;
-    naive_search(&results, "asd\n2", 2, "C:\\Users\\cucurbita\\Desktop\\asd\\1.txt", "C:\\Users\\cucurbita\\Desktop\\asd\\2.txt");
+    naive_search(&results, "dd", 2, "C:\\Users\\cucurbita\\Desktop\\asd\\1.txt", "C:\\Users\\cucurbita\\Desktop\\asd\\2.txt");
 
     for(int i = 0; i < 2; i++)
     {

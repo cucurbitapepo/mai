@@ -34,10 +34,39 @@ int naive_search(strct*** results, char* pattern, int texts, ...)
         int flag = 1;
         int count = 0;
         char c = '1';
+
+        if(pattern_length == 0)
+        {
+            while(!feof(source))
+            {
+                c = fgetc(source);
+                count++;
+                if(capacity == count)
+                {
+                    capacity *= 2;
+                    strct* for_realloc = realloc((*results)[i], sizeof(strct)*capacity);
+                    if( for_realloc == NULL)
+                    {
+                        for(int j = 0; j < i; j++)
+                        {
+                            free((*results)[j]);
+                        }
+                        free(*results);
+                        return memory_error;
+                    }
+                    (*results)[i] = for_realloc;
+                }
+                (*results)[i][count] = (strct){0, 0};
+                (*results)[i][count-1] = (strct){line, position};
+                if(c == '\n') {position = 1; line++;}
+                else position++;
+            }
+            return success;
+        }
+
         while(c != EOF)
         {
             flag = 1;
-            int is_next_line = 0;
             for(int j = 0; j < pattern_length; j++)
             {
                 c = fgetc(source);
@@ -45,10 +74,10 @@ int naive_search(strct*** results, char* pattern, int texts, ...)
                 {
                     if(j > 0 && c == pattern[j-1])
                     {
-                        fseek(source, -1, SEEK_CUR);
+                        fseek(source, -pattern_length + 1, SEEK_CUR);
                         position--;
                     }
-                    position += j + 1;
+                    position += j;
                     flag = 0;
                     if(c == '\n') { line++; position = 1; }
                     if(c == EOF)
@@ -72,13 +101,6 @@ int naive_search(strct*** results, char* pattern, int texts, ...)
                     }
                     break;
                 }
-                else
-                {
-                    if( c == '\n')
-                    {
-                        is_next_line = 1;
-                    }
-                }
             }
             if(flag == 1)
             {
@@ -99,14 +121,13 @@ int naive_search(strct*** results, char* pattern, int texts, ...)
                     (*results)[i] = for_realloc;
                 }
                 (*results)[i][count-1] = (strct){line, position};
-                line+=is_next_line;
-                position += pattern_length;
+                fseek(source, -pattern_length + 1, SEEK_CUR);
+                position += pattern_length - 1;
             }
         }
         fclose(source);
     }
 
-
-    return success;
     va_end(args);
+    return success;
 }
