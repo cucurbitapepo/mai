@@ -35,6 +35,11 @@ int main(int argc, char** argv) {
             {
                 printf("empty separator was input. Take into consideration, that the program will separate each symbol.\n");
                 separators = strdup("");
+                if(separators == NULL)
+                {
+                    printf("memory error\n");
+                    return 0;
+                }
                 break;
             }
         }
@@ -125,6 +130,13 @@ int main(int argc, char** argv) {
     fflush(stdout);
 
     response[0] = strdup("");
+    if(response[0] == NULL)
+    {
+        printf("memory error\n");
+        delete_tree(tree);
+        free(tree);
+        return 0;
+    }
 
     while(strcmp(response[0], "quit"))
     {
@@ -174,7 +186,6 @@ int main(int argc, char** argv) {
                 {
                     printf("memory error\n");
                     delete_tree(tree);
-                    tree = NULL;
                     if(response[0] != NULL) free(response[0]);
                     if(response[1] != NULL) free(response[1]);
                     if(tree != NULL) delete_tree(tree); tree = NULL;
@@ -236,7 +247,7 @@ int main(int argc, char** argv) {
                     if(response[1] != NULL) free(response[1]);
                     return 0;
                 }
-                if(save_to(dest, tree) == memory_error) printf("Couldn't write to file %s\n", response[1]);
+                if(save_to(dest, tree) == memory_error) { printf("Couldn't write to file %s\n", response[1]); fclose(dest); break; }
                 fclose(dest);
                 printf("Tree was written to '%s'\n", response[1]);
                 break;
@@ -284,10 +295,10 @@ int main(int argc, char** argv) {
                 break;
             }
         }
-        if(response[0] != NULL) free(response[0]);
-        if(response[1] != NULL) free(response[1]);
         fflush(stdout);
     }
+    if(response[0] != NULL) free(response[0]);
+    if(response[1] != NULL) free(response[1]);
     if(tree != NULL) delete_tree(tree);
     return 0;
 }
