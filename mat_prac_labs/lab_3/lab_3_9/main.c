@@ -1,5 +1,6 @@
 
 #include "functions.h"
+#include <limits.h>
 
 int main(int argc, char** argv) {
 
@@ -38,6 +39,7 @@ int main(int argc, char** argv) {
                 if(separators == NULL)
                 {
                     printf("memory error\n");
+                    free(separators);
                     return 0;
                 }
                 break;
@@ -102,6 +104,13 @@ int main(int argc, char** argv) {
     }
 
     tree = (struct Node*)malloc(sizeof(struct Node));
+    if(tree == NULL)
+    {
+        printf("Memory error, pardon.\n");
+        free(separators);
+        fclose(input);
+        return 0;
+    }
     tree->word = NULL;
     tree->height = 0;
 
@@ -111,6 +120,7 @@ int main(int argc, char** argv) {
         free(separators);
         fclose(input);
         delete_tree(tree);
+        free(tree);
         return 0;
     }
     free(separators);
@@ -140,6 +150,7 @@ int main(int argc, char** argv) {
 
     while(strcmp(response[0], "quit"))
     {
+        free(response[0]);
         response[0] = NULL;
         response[1] = NULL;
         i = 1;
@@ -188,15 +199,14 @@ int main(int argc, char** argv) {
                     delete_tree(tree);
                     if(response[0] != NULL) free(response[0]);
                     if(response[1] != NULL) free(response[1]);
-                    if(tree != NULL) delete_tree(tree); tree = NULL;
+                    if(tree != NULL) { delete_tree(tree); free(tree); tree = NULL; }
                     return 0;
                 }
                 amounts = (int*)calloc(size, sizeof(int));
                 if(amounts == NULL)
                 {
                     printf("memory error\n");
-                    delete_tree(tree);
-                    tree = NULL;
+                    if(tree != NULL) { delete_tree(tree); free(tree); tree = NULL; }
                     if(words != NULL) free(words);
                     if(response[0] != NULL) free(response[0]);
                     if(response[1] != NULL) free(response[1]);
@@ -241,8 +251,7 @@ int main(int argc, char** argv) {
                 if (dest == NULL)
                 {
                     printf("memory error\n");
-                    delete_tree(tree);
-                    tree = NULL;
+                    if(tree != NULL) { delete_tree(tree); free(tree); tree = NULL; }
                     if(response[0] != NULL) free(response[0]);
                     if(response[1] != NULL) free(response[1]);
                     return 0;
@@ -264,8 +273,7 @@ int main(int argc, char** argv) {
                 if(load_from(origin, tree) == memory_error)
                 {
                     printf("memory error\n");
-                    delete_tree(tree);
-                    tree = NULL;
+                    if(tree != NULL) { delete_tree(tree); free(tree); tree = NULL; }
                     if(response[0] != NULL) free(response[0]);
                     if(response[1] != NULL) free(response[1]);
                     return 0;
@@ -299,6 +307,6 @@ int main(int argc, char** argv) {
     }
     if(response[0] != NULL) free(response[0]);
     if(response[1] != NULL) free(response[1]);
-    if(tree != NULL) delete_tree(tree);
+    if(tree != NULL) { delete_tree(tree); free(tree); tree = NULL; }
     return 0;
 }

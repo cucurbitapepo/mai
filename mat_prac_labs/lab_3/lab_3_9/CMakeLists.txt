@@ -10,3 +10,5 @@ add_executable(lab_3_9 main.c
         tree.h
         queue.c
         queue.h)
+
+#target_link_libraries(lab_3_9 m)

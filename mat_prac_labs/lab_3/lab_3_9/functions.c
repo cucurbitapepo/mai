@@ -15,7 +15,6 @@ int get_string(FILE* stream, char** string, int* length, const char* separators)
     *string = (char*)malloc(sizeof(char)*1);
     if(*string == NULL) return memory_error;
     size_t sep_amount = strlen(separators);
-    int word_ended = 0;
     while(c != EOF)
     {
         for(int i = 0; i < sep_amount; i++) if(c == separators[i])
@@ -53,8 +52,16 @@ int read_from_file(FILE* stream, struct Node* head, char* separators)
         char* string;
         int length;
         if(get_string(stream, &string, &length, separators) == memory_error) return memory_error;
-        if(length != 0) insert(head, string, 0);
-        free(string);
+        if(length != 0)
+        {
+            if (insert(head, string, 0) == memory_error)
+            {
+                delete_tree(head);
+                free(string);
+                return memory_error;
+            }
+        }
+        //free(string);
     }
 
     return success;
@@ -125,9 +132,14 @@ int load_from(FILE* origin, struct Node* _tree)
             free(tree.word);
             return memory_error;
         }
-        insert(_tree, tree.word, atoi(amount));
-        free(tree.word);
+        if(insert(_tree, tree.word, atoi(amount)) == memory_error)
+        {
+            free(amount);
+            free(tree.word);
+            delete_tree(_tree);
+            return memory_error; }
         free(amount);
+        free(tree.word);
     }
     return success;
 }
